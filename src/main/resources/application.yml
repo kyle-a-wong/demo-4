@@ -1,0 +1,33 @@
+logging.pattern.level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+
+spring:
+  liquibase:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/
+    user: postgres
+    change-log: classpath:/db/changelog-master.yml
+    password: postgres@123
+  r2dbc:
+    username: postgres
+    password: postgres@123
+    pool:
+      initialSize: 10
+      maxSize: 10
+    url: "r2dbc:postgresql://localhost:5432/"
+#    url: "r2dbc:h2:file:///:/testdb"
+
+  graphql:
+        websocket:
+            path: /graphql
+logging:
+    level:
+        liquibase: INFO
+        org:
+            zalando:
+                logbook: TRACE
+logbook:
+    exclude:
+        - /actuator
+        - /actuator/*
+    format:
+        style: json
