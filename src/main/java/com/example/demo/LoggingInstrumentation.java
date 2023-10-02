@@ -1,15 +1,17 @@
 package com.example.demo;
 
 
+import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.stereotype.Component;
 
 import graphql.ExecutionResult;
 import graphql.execution.instrumentation.Instrumentation;
 import graphql.execution.instrumentation.InstrumentationContext;
 import graphql.execution.instrumentation.InstrumentationState;
+import graphql.execution.instrumentation.SimpleInstrumentation;
 import graphql.execution.instrumentation.SimpleInstrumentationContext;
 import graphql.execution.instrumentation.parameters.InstrumentationExecutionParameters;
-import io.micrometer.tracing.Tracer;
+//import io.micrometer.tracing.Tracer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,12 +24,12 @@ import java.time.Instant;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class LoggingInstrumentation implements Instrumentation {
+public class LoggingInstrumentation extends SimpleInstrumentation {
   private final Tracer tracer;
 
   @Override
   public InstrumentationContext<ExecutionResult> beginExecution(
-      InstrumentationExecutionParameters parameters, InstrumentationState state) {
+      InstrumentationExecutionParameters parameters) {
     Instant startTime = Instant.now();
     log.info("Graphql operation executed. {}", parameters.getOperation());
     log.info("Trace_span={}", tracer.currentSpan());

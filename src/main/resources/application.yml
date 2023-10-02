@@ -15,7 +15,11 @@ spring:
       maxSize: 10
     url: "r2dbc:postgresql://localhost:5432/"
 #    url: "r2dbc:h2:file:///:/testdb"
-
+  sleuth:
+    propagation:
+      type: W3C
+    trace-id128: true
+    supports-join: false
   graphql:
         websocket:
             path: /graphql
